@@ -21,7 +21,7 @@ def get_version(package):
 
 setuptools.setup(
     name="drf-keypair-permissions",
-    version="0.0.1",
+    version=get_version('keypair_permissions'),
     author="Adonis Gaitatzis",
     author_email="backupbrain@gmail.com",
     packages=setuptools.find_packages("src"),
@@ -34,8 +34,8 @@ setuptools.setup(
         "Documentation": "https://drf-keypair-permissions.readthedocs.io/"
     },
     install_requires=[
-        'pycryptodome',
-        'fastecdsa',
+        # 'pycryptodome',
+        # 'fastecdsa',
     ],
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
