@@ -367,7 +367,7 @@ Signature algorithm="hs2019",keyId="P256Test",signature="MEUCIGGB0P3P/iZCzCbX1fj
 
 #### Basic Test
 
-The minimum recommended data to sign is the (request-target), host, and date.  In this case, the string to sign would be:
+The minimum recommended data to sign is the (request-target), host, and date.  In this case, the test would look like this:
 
 ```python
 date = 'Sun, 05 Jan 2014 21:31:40 GMT'
@@ -412,7 +412,7 @@ Signature algorithm="hs2019",keyId="P256Test",headers="(request-target) host dat
 
 #### All Headers Test
 
-A strong signature including all of the headers and a digest of the body of the HTTP request would result in the following signing string:
+A strong signature including all of the headers and a digest of the body of the HTTP request would look like this:
 
 ```python
 date = 'Sun, 05 Jan 2014 21:31:40 GMT'
@@ -439,7 +439,7 @@ client.headers['Content-Type'] = 'application/json'
 client.headers['Content-Length'] = str(len(client.data_body))
 client.signing_algorithm = 'ECDSA-P256'
 client.hashing_algorithm = 'SHA512'
-client.digest_algorithm = 'SHA512'
+client.digest_algorithm = 'SHA256'
 client.authorization_parameters['keyId'] = 'P256Test'
 client.authorization_parameters['keyId'] = 'P-256-DAQcDQgAE+-None'
 client.authorization_parameters['algorithm'] = 'hs2019'
@@ -544,7 +544,7 @@ Signature algorithm="rsa-sha256",keyId="Test",signature="SjWJWbWN7i0wzBvtPl8rbAS
 
 #### Basic Test
 
-The minimum recommended data to sign is the (request-target), host, and date.  In this case, the string to sign would be:
+The minimum recommended data to sign is the (request-target), host, and date.  We can test this:
 
 ```python
 date = 'Sun, 05 Jan 2014 21:31:40 GMT'
@@ -589,7 +589,7 @@ Signature algorithm="rsa-sha256",keyId="Test",signature="qdx+H7PHHDZgy4y/Ahn9Tny
 
 #### All Headers Test
 
-A strong signature including all of the headers and a digest of the body of the HTTP request would result in the following signing string:
+A strong signature including all of the headers and a digest of the body of the HTTP request would be build like this:
 
 ```python
 date = 'Sun, 05 Jan 2014 21:31:40 GMT'
