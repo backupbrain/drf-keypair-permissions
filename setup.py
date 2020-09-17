@@ -34,8 +34,8 @@ setuptools.setup(
         "Documentation": "https://drf-keypair-permissions.readthedocs.io/"
     },
     install_requires=[
-        'pycryptodome',
-        'fastecdsa',
+        # 'pycryptodome',
+        # 'fastecdsa',
     ],
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
