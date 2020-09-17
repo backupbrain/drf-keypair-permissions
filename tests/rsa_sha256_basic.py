@@ -1,3 +1,4 @@
+#!/usr/bin/env/python3
 from keys import rsa_private_key_string, rsa_public_key_id
 from securehttpclient import SecureHttpClient
 
