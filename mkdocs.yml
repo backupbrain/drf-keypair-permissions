@@ -1,0 +1,20 @@
+site_name: Crypto Keypair Authorization for Django Rest Framework
+theme:
+    name: readthedocs
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - python
+markdown_extensions:
+    - tables
+    - fenced_code
+nav:
+    - 'index.md'
+    - 'installation.md'
+    - 'getting_started.md'
+    - 'extending.md'
+    - 'working_with_keys.md'
+    - 'digests.md'
+    - 'testing.md'
+    - About:
+        - 'License': 'license.md'
