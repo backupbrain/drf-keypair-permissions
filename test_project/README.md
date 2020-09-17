@@ -10,9 +10,15 @@ Migrate the database
 
 ```
 $ ./manage.py makemigrations
+$ ./manage.py makemigrations keypair_permissions
 $ ./manage.py migrate
 ```
 
+Create a superuser
+
+```
+$ ./manage.py createsuperuser
+```
 
 ## Running
 

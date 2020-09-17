@@ -16,6 +16,7 @@ Run the included migrations:
 
 ```
 $ ./manage.py makemigrations
+$ ./manage.py makemigrations keypair_permissions
 $ ./manage.py migrate
 ```
 

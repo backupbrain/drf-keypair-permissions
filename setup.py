@@ -34,8 +34,8 @@ setuptools.setup(
         "Documentation": "https://drf-keypair-permissions.readthedocs.io/"
     },
     install_requires=[
-        'pycryptodome',
-        'fastecdsa',
+        # 'pycryptodome',
+        # 'fastecdsa',
     ],
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
@@ -44,7 +44,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Environment :: Web Environment",
         "Topic :: Software Development :: Libraries :: Python Modules",

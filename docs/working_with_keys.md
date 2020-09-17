@@ -21,6 +21,6 @@ PublicKeys can be disabled by switching `is_active` to `False`. Doing so will pr
 
 ## Managing keys
 You can manage keys in the Django admin:
-`/admin/keypair_permissions/publickey/`
+[`/admin/keypair_permissions/publickey/`](http://127.0.0.1:8000/admin/keypair_permissions/publickey/)
 
 Here you will find a standard admin interface for adding, removing, and modifying PublicKeys.
