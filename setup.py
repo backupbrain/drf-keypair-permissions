@@ -20,7 +20,7 @@ def get_version(package):
 
 
 setuptools.setup(
-    name="drf-cavage",
+    name="drf-keypair-permissions",
     version="0.0.1",
     author="Adonis Gaitatzis",
     author_email="backupbrain@gmail.com",
