@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 
-class HasHttpCrypoAuthorization(permissions.BasePermission):
+class HasHttpCryptoAuthorization(permissions.BasePermission):
     """Require Cavage-12 crypto-signed authorization at the method level."""
 
     def has_permission(self, request, view):
