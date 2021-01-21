@@ -38,7 +38,7 @@ class PublicKey(models.Model):
     SIGNING_ALGORITHM_ECDSA_P256 = 'EDCA-P256'
     SIGNING_ALGORITHM_ECDSA_P384 = 'EDCA-P384'
     SIGNING_ALGORITHM_ECDSA_P521 = 'EDCA-P521'
-    SIGNING_ALGORITHM_ECDSA_CURVE25519 = 'EDCA-Curve25519'
+    SIGNING_ALGORITHM_ECDSA_CURVE25519 = 'EDCA-CURVE25519'
     SUPPORTED_SIGNING_ALGORITHMS = [
         SIGNING_ALGORITHM_RSA,
         SIGNING_ALGORITHM_ECDSA_P256,
@@ -127,20 +127,25 @@ class PublicKey(models.Model):
         r, s = DEREncoder.decode_signature(signature)
         # r_bytes, s_bytes = signature[:signature_length // 2], signature[signature_length // 2:signature_length]
         # r, s = int.from_bytes(r_bytes, 'big', signed=False), int.from_bytes(s_bytes, 'big', signed=False)
-        if self.signing_algorithm == self.SIGNING_ALGORITHM_ECDSA_P256:
+        signing_algorithm = self.signing_algorithm.upper()
+        if ('SHA-' in signing_algorithm):
+            signing_algorithm = signing_algorithm.replace('SHA-', 'SHA')
+        if ('P-' in signing_algorithm):
+            signing_algorithm = signing_algorithm.replace('P-', 'P')
+        if signing_algorithm == self.SIGNING_ALGORITHM_ECDSA_P256:
             curve_algorithm = curve.P256
-        elif self.signing_algorithm == self.SIGNING_ALGORITHM_ECDSA_P384:
+        elif signing_algorithm == self.SIGNING_ALGORITHM_ECDSA_P384:
             curve_algorithm = curve.P384
-        elif self.signing_algorithm == self.SIGNING_ALGORITHM_ECDSA_P521:
+        elif signing_algorithm == self.SIGNING_ALGORITHM_ECDSA_P521:
             curve_algorithm = curve.P2521
-        elif self.signing_algorithm == self.SIGNING_ALGORITHM_ECDSA_CURVE25519:
+        elif signing_algorithm == self.SIGNING_ALGORITHM_ECDSA_CURVE25519:
             curve_algorithm = curve.W25519
         else:
             raise UnsupportedAlgorithmException(self.signing_algorithm)
-
-        if self.hashing_algorithm == self.HASHING_ALGORITHM_SHA256:
+        hashing_algorithm = self.hashing_algorithm.upper().replace('-', '')
+        if hashing_algorithm == self.HASHING_ALGORITHM_SHA256:
             hash_function = hashlib.sha256
-        elif self.hashing_algorithm == self.HASHING_ALGORITHM_SHA512:
+        elif hashing_algorithm == self.HASHING_ALGORITHM_SHA512:
             hash_function = hashlib.sha512
         else:
             raise UnsupportedAlgorithmException(self.hashing_algorithm)
@@ -226,13 +231,14 @@ class DigestHeader:
             raise UnsupportedAlgorithmException(digest_algorithm)
 
         request_body = self.request.body
-        if digest_algorithm == 'SHA-512':
+        digest_algorithm = digest_algorithm.upper().replace('-', '')
+        if digest_algorithm == 'SHA512':
             test_digest = hashlib.sha512(request_body).digest()
-        elif digest_algorithm == 'SHA-384':
+        elif digest_algorithm == 'SHA384':
             test_digest = hashlib.sha384(request_body).digest()
-        elif digest_algorithm == 'SHA-256':
+        elif digest_algorithm == 'SHA256':
             test_digest = hashlib.sha256(request_body).digest()
-        elif digest_algorithm == 'SHA-1':
+        elif digest_algorithm == 'SHA1':
             test_digest = hashlib.sha1(request_body).digest()
         elif digest_algorithm == 'MD5':
             test_digest = hashlib.md5(request_body).digest()

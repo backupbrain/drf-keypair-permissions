@@ -65,9 +65,16 @@ Digest: SHA512=WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrIiYllu7BNN
 Each public key can be associated with a Django User, so the User can be accessed from the View:
 
 ```python
-class EchoServerApiView(GenericApiView):
+from keypair_permissions.permissions import HasHttpCryptoAuthorization
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+class EchoServerApiView(APIView):
     permission_classes = [HasHttpCryptoAuthorization]
     def get(self, request):
+        user = request.public_key.user
+        return Response(request.body)
+    def post(self, request):
         user = request.public_key.user
         return Response(request.body)
 ```
@@ -109,7 +116,7 @@ from keypair_permissions.permissions import HasHttpCryptoAuthorization
 Set the `permission_classes` of API views to include `HasHttpCryptoAuthorization`:
 
 ```python
-class EchoServerApiView(GenericApiView):
+class EchoServerApiView(APIView):
     permission_classes = [HasHttpCryptoAuthorization]
     def get(self, request):
         return Response(request.body)

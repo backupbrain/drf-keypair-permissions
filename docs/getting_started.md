@@ -67,3 +67,42 @@ REST_FRAMEWORK = {
     ]
 }
 ```
+
+## CORS Policy
+
+Most users will want to install a CORS policy, as a common use-case for keypair authorization is to cross-origin authentication. A CORS policy can be defined using a DRF CORS middleware, or by building a custom middleware.
+
+Make sure to include the `Authorization`, `Signature`, `Date`, `Host`, `Content-Length`, and other headers in the `Access-Control-Allow-Headers` Response header they will be used to build an authorization signature. 
+
+**myapp/middleware/cors.py**
+```python
+from django import http
+
+class CorsMiddleware(object):
+    """CORS Middleware."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        if (request.method == "OPTIONS" and "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META):
+            response = http.HttpResponse()
+            response["Content-Length"] = "0"
+            response["Access-Control-Max-Age"] = 86400
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "DELETE, GET, OPTIONS, PATCH, POST, PUT"
+        response["Access-Control-Allow-Headers"] = "accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with, authorization, signature, digest, content-length, date, host"
+        return response
+```
+
+Install the CORS middleware in `settings.py`:
+```python
+# ... other settings
+MIDDLEWARE = [
+    # 'echotest.cors.CorsMiddleware',
+    'myapp.middleware.cors.CorsMiddleware',
+    # ... other middleware
+]
+# ... other settings
+```
