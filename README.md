@@ -30,6 +30,59 @@ This system has the added benefit of being able to work the other way around. It
 
 For full documentation visit [drf-keypair-permissions.readthedocs.io](https://drf-keypair-permissions.readthedocs.io/).
 
+### How does Key-Pair Authorization Affect HTTP Requests
+
+A normal HTTP Request might look like this:
+
+```
+POST /foo?param=value&pet=dog
+Host: example.com
+Content-Length: 34
+Date: Mon, 11 Jan 2021 20:54:32 GMT
+Content-Type: application/json; encoding=utf-8
+Accept: application/json
+
+{"hello":"world"}
+```
+
+In this example, the HTTP client is POSTING some JSON data to the url `http://example.com/foo?param=value&pet=dog`. The HTTP headers include the date and content type.
+
+In HTTP keypair authorization, a subset of HTTP headers are used to create a message that is signed using a private key on the client.  This signature and other information necessary to verify the signature are then described in the `Authorization` and/or `Signature` headers.
+
+The client must share its public key with authorizing sever prior to using HTTP key-pair authorization. This public key is given an ID by the server, which is shared with the client, and which the client uses as a shorthand to tell the server which public key to use when verifying authorization.
+
+Optionally, a digest of the HTTP message body may be included in the `Digest` header and used to create the signature also, to add an extra layer of security. If so, the algorithm is prepended to the digest with the format `ALGORITHM=DIGEST`.
+
+```
+POST /foo?param=value&pet=dog
+Host: example.com
+Content-Length: 34
+Date: Mon, 11 Jan 2021 20:54:32 GMT
+Content-Type: application/json; encoding=utf-8
+Accept: application/json
+Digest: SHA512=U0hBLTUxMj16RllORkk1anErY3FoT3ZIK3JSNzFHNmRZMU85bkNjMk9xczdWK0xCbkpYSWVrdEVwWTg4U0swdStjK29LR2xpaEp3NFFMdjc2d21NUHJlTEZmMms5Zz09
+Authorization: algorithm="rsa-sha256",keyId="client-public-key-id",expires=1611235402,headers="(request-path) (expires) host content-length date digest",signature="TiJZTTihhUYAIlOm2PpnvJa/+15WOX2U0iKJ2LXsLecvohhRIWnwFfdHy4ci10mcv/UQgf2+bFf9lfFZUlPPdzckBNfXIqAjafM8XquJiw/t1v+pEGtJpaGASlzuWuL37gp3k8ux3l6zBKKbBVPPASkHVhz37uY1AXeMblfRbFE="
+
+{"hello":"world"}
+```
+
+The server may then:
+
+* Use the `keyId` in the `Authorization` header to load a locally stored copy of the client's private key,
+* Reproduce the singing message by assembling the header and authorization data from the `headers` key
+* Verify the `signature` data using the client's public key, and the signing message, using the `algorithm` described in the `Authorization` header.
+
+## Why this library exists
+
+This JavaScript module was created to give "Cavage" HTTP Signatures capabilities AJAX and REST API requests.
+
+This enables HTTP authorization based on public key/private key encryption as an alternative to session cookies or API tokens.
+
+For more information see [Draft Cavage HTTP Signatures 12](https://tools.ietf.org/html/draft-cavage-http-signatures-12)
+
+Using [Django Rest Framework](https://www.django-rest-framework.org/) on the server? Try the [DRF Keypair authorization header library](https://pypi.org/project/drf-keypair-permissions/).
+
+
 ## Why this library exists
 
 This Django module was created to give "Cavage" HTTP Signatures capabilities to the Django Rest Framework.
