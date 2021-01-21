@@ -74,12 +74,11 @@ Most users will want to install a CORS policy, as a common use-case for keypair 
 
 Make sure to include the `Authorization`, `Signature`, `Date`, `Host`, `Content-Length`, and other headers in the `Access-Control-Allow-Headers` Response header they will be used to build an authorization signature. 
 
-**myapp/middleware/cors.py**
+**myapp/middleware.py**
 ```python
 from django import http
 
 class CorsMiddleware(object):
-    """CORS Middleware."""
 
     def __init__(self, get_response):
         self.get_response = get_response
@@ -100,8 +99,7 @@ Install the CORS middleware in `settings.py`:
 ```python
 # ... other settings
 MIDDLEWARE = [
-    # 'echotest.cors.CorsMiddleware',
-    'myapp.middleware.cors.CorsMiddleware',
+    'myapp.middleware.CorsMiddleware',
     # ... other middleware
 ]
 # ... other settings
