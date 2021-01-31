@@ -218,3 +218,9 @@ MIDDLEWARE = [
     # ...
 ]
 ````
+
+## Thank you
+
+If you enjoy this tool, please feel free to support me
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S53GD2U)
